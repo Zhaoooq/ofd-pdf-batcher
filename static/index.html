@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OFD、JPG转PDF</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">本地转换</p>
+          <h1>OFD、JPG转PDF</h1>
+        </div>
+        <div class="engine" id="engineStatus">
+          <span class="pulse"></span>
+          <span>检测转换引擎</span>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <form class="upload-panel" id="uploadForm">
+          <label class="dropzone" id="dropzone">
+            <input id="fileInput" name="files" type="file" accept=".ofd,.jpg,.jpeg,.png,.bmp,.tif,.tiff,.webp" multiple />
+            <span class="drop-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img">
+                <path d="M12 3v11m0-11 4 4m-4-4-4 4" />
+                <path d="M5 14v4a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3v-4" />
+              </svg>
+            </span>
+            <strong>拖动文件到这里</strong>
+            <small>也可以点击选择 OFD、JPG、PNG、BMP、TIFF、WEBP</small>
+          </label>
+
+          <div class="options-panel">
+            <label class="field">
+              <span>转换纸张</span>
+              <select id="paperSizeSelect" name="paperSize">
+                <option value="original">保持原尺寸</option>
+                <option value="a4">A4 竖向</option>
+                <option value="a4_landscape">A4 横向</option>
+                <option value="a3">A3 竖向</option>
+                <option value="a3_landscape">A3 横向</option>
+                <option value="letter">Letter 竖向</option>
+                <option value="letter_landscape">Letter 横向</option>
+              </select>
+            </label>
+            <label class="toggle-row">
+              <input id="mergeOption" name="merge" type="checkbox" />
+              <span class="toggle-box" aria-hidden="true"></span>
+              <span>转换后合并为一个 PDF</span>
+            </label>
+          </div>
+
+          <div class="upload-actions">
+            <button class="primary" id="convertBtn" type="submit" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7 3h7l5 5v13H7z" />
+                <path d="M14 3v5h5" />
+                <path d="M10 15h4m-2-2v4" />
+              </svg>
+              <span>开始转换</span>
+            </button>
+            <button class="ghost" id="clearBtn" type="button" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 7h16" />
+                <path d="M10 11v6m4-6v6" />
+                <path d="M6 7l1 14h10l1-14" />
+                <path d="M9 7V4h6v3" />
+              </svg>
+              <span>清空</span>
+            </button>
+          </div>
+
+          <div class="selected-list" id="selectedList"></div>
+        </form>
+
+        <section class="result-panel">
+          <div class="result-head">
+            <div>
+              <p class="eyebrow">任务结果</p>
+              <h2 id="resultTitle">等待文件</h2>
+            </div>
+            <div class="download-actions">
+              <a class="download-all secondary disabled" id="downloadMerged" href="#" aria-disabled="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 7h8M8 12h8M8 17h5" />
+                  <path d="M4 3h16v18H4z" />
+                </svg>
+                <span>下载合并</span>
+              </a>
+              <a class="download-all disabled" id="downloadAll" href="#" aria-disabled="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 3v12m0 0 4-4m-4 4-4-4" />
+                  <path d="M5 21h14" />
+                </svg>
+                <span>下载全部</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="stats">
+            <div><span id="statTotal">0</span><small>总数</small></div>
+            <div><span id="statSuccess">0</span><small>成功</small></div>
+            <div><span id="statFailed">0</span><small>失败</small></div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>文件</th>
+                  <th>类型</th>
+                  <th>状态</th>
+                  <th>纸张</th>
+                  <th>页数</th>
+                  <th>大小</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="resultRows">
+                <tr class="empty-row">
+                  <td colspan="7">还没有转换任务</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
